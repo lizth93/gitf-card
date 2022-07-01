@@ -2,14 +2,12 @@
   "name": "tarjetaregalo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "dependencies": {
-    "parcel": "^2.6.2"
-  },
-  "devDependencies": {},
   "scripts": {
     "start": "parcel index.html"
   },
   "author": "Luz Edith",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "parcel": "^2.6.2"
+  }
 }
