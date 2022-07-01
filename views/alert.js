@@ -1,6 +1,5 @@
 import { container } from "./renderCard";
 import { clear } from "./renderCard";
-import {load} from "../controllers/load"
 
 export function handlerClickOnSendCard(handler) {
   const btnSend = document.querySelector(".btn");
@@ -8,13 +7,11 @@ export function handlerClickOnSendCard(handler) {
     return;
   }
 
-  
+  btnSend.removeEventListener("click", handler);
   btnSend.addEventListener("click", handler);
 }
 
-
- export function renderAlert() {
-
+export function renderAlert() {
   const root = container();
   const markup = `
     <div class="card">
@@ -23,10 +20,10 @@ export function handlerClickOnSendCard(handler) {
         Escribe el nombre de la persona a quien quieres enviar la tarjeta:
       </p>
       <form>
-        <input class="input-name" type="text" required/>
+        <input class="input-name" type="text" placeholder="Nombre" required/>
         <div class="show-error">&nbsp;</div>       
-        <button type="button" class="btn btn-cancel">CANCELAR</button>
-        <button type="submit" class="btn btn-continue">CONTINUAR</button>
+        <button type="button" id="btn-cancel" class="btn">CANCELAR</button>
+        <button type="button" id="btn-continue" class="btn">CONTINUAR</button>
       </form>
   </div>`;
 
@@ -35,77 +32,58 @@ export function handlerClickOnSendCard(handler) {
   htmlObject.innerHTML = markup;
 
   root.insertAdjacentElement("beforeend", htmlObject);
-
-  handlerClickSubmit()
-  handlerClickCancel()
 }
 
-function handlerClickCancel(){
-  const btnCancel= document.querySelector(".btn-cancel")
+export function handlerClickContinue(handler) {
+  const btnContinue = document.getElementById("btn-continue");
 
-  btnCancel.removeEventListener("click", cancelEvent)
-  btnCancel.addEventListener("click",cancelEvent)
+  btnContinue.removeEventListener("click", handler);
+  btnContinue.addEventListener("click", function (e) {
+    e.preventDefault();
+    const input = getInput();
+    const name = input.value;
+
+    handler(name);
+  });
 }
 
-function cancelEvent (){
-load()
+export function handlerClickCancel(handler) {
+  const btnCancel = document.getElementById("btn-cancel");
+
+  btnCancel.removeEventListener("click", handler);
+  btnCancel.addEventListener("click", handler);
 }
 
-function handlerClickSubmit() {
-  handlerFocusInput()
-  const btnContinue = document.querySelector(".btn-continue")
-  btnContinue.removeEventListener("click", validationInputSubmit)
-  btnContinue.addEventListener("click",validationInputSubmit)
+export function handlerFocusInput(handler) {
+  const input = getInput();
+
+  input.removeEventListener("focus", handler);
+  input.addEventListener("focus", handler);
 }
 
-let message = ""
+export function handlerBlurInput(handler) {
+  const input = getInput();
 
-function validationInputSubmit (e){
-  e.preventDefault()
+  input.removeEventListener("blur", function () {});
+  input.addEventListener("blur", function () {
+    const input = getInput();
+    const name = input.value;
 
-  const name =  document.querySelector(".input-name").value
-  
-  if (name.trim()===""){
-    message="Por favor ingrese un nombre"
-    renderError()
-  } 
-
-}
-function handlerFocusInput(){
-  const input = getInput()
-
-  input.removeEventListener("focus", isFocus)
-  input.addEventListener("focus", isFocus)
-
-  input.removeEventListener("blur", isBlur)
-  input.addEventListener("blur", isBlur)
+    handler(name);
+  });
 }
 
-function isFocus(){
-  message=""
-  renderError()
- 
+function getInput() {
+  return document.querySelector(".input-name");
 }
 
-function isBlur(){
-  const name = getInput().value
-  if(name.trim()==="") {
-    message="Por favor ingrese un nombre"
-    renderError()
-  }
-  
-}
+export function renderError(
+  message = "*El campo esta vacío, escribe un nombre para poder enviar la tarjeta"
+) {
+  const root = document.querySelector(".show-error");
 
-function getInput(){
-  return  document.querySelector(".input-name")
-}
-
-
-function renderError(){
-  const root = document.querySelector(".show-error")
-  
   const markup = `
-  <label class="message">${message}</label></br>`
+  <label class="message">${message}</label></br>`;
 
   root.innerHTML = "";
   const htmlObject = document.createElement("div");
@@ -113,4 +91,3 @@ function renderError(){
 
   root.insertAdjacentElement("beforeend", htmlObject);
 }
-
