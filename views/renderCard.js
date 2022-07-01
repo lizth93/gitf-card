@@ -15,6 +15,7 @@ export function renderCard() {
       <button class="btn">ENVIAR TARJETA</button>
     </div>`;
 
+    clear();
   const htmlObject = document.createElement("div");
   htmlObject.innerHTML = markup;
 
