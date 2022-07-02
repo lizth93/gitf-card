@@ -101,3 +101,15 @@ input:valid {
   color: red;
   font-size: 1.4rem;
 }
+
+/* success message*/
+
+.success {
+  color: #364fc7;
+  font-size: 6rem;
+  border-bottom: 3px solid #364fc7;
+  margin-bottom: 6rem;
+}
+.name {
+  color: #4c6ef5;
+}

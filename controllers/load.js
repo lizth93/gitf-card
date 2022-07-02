@@ -1,53 +1,53 @@
 import { renderCard } from "../views/renderCard";
 import {
   renderAlert,
-  handlerClickOnSendCard,
-  handlerClickContinue,
-  handlerClickCancel,
+  handleSendCardClick,
+  handleContinueClick,
+  handleCancelClick,
   renderError,
-  handlerFocusInput,
-  handlerBlurInput,
+  handleFocusInput,
+  handleBlurInput,
+  getName,
 } from "../views/alert";
+import { renderSuccessMessage, handleClickBack } from "../views/success";
 
 export function load() {
   renderCard();
-  handlerRenderAlert();
+  handleSendCardClick(showForm);
 }
 
-const handlerRenderAlert = function () {
-  handlerClickOnSendCard(controlRenderAlert);
-};
-
-const controlRenderAlert = function () {
+const showForm = function () {
   renderAlert();
-  eventButtonsOnTheAlert();
+  handleContinueClick(submit);
+  handleCancelClick(cancel);
+  handleFocusInput(clearError);
+  handleBlurInput(renderErrorIfInputInvalid);
 };
 
-const eventButtonsOnTheAlert = function () {
-  handlerClickContinue(controlValidationInput);
-  handlerClickCancel(controlCancelEvent);
-  handlerFocusInput(controlEventFocus);
-  handlerBlurInput(controlEventBlur);
-};
+const submit = function () {
+  const name = getName();
 
-const controlValidationInput = function (name) {
   if (name.trim() === "") {
     renderError();
   } else {
-    let message = "";
-    renderError(message);
+    renderSuccessMessage(name);
+    handleClickBack(cancel);
   }
 };
-function controlCancelEvent() {
+
+function cancel() {
+  console.log("cancel");
   load();
 }
 
-const controlEventFocus = function () {
+const clearError = function () {
   let message = "";
   renderError(message);
 };
 
-const controlEventBlur = function (name) {
+const renderErrorIfInputInvalid = function () {
+  const name = getName();
+
   if (name.trim() === "") {
     renderError();
   }

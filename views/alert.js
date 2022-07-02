@@ -1,7 +1,7 @@
 import { container } from "./renderCard";
 import { clear } from "./renderCard";
 
-export function handlerClickOnSendCard(handler) {
+export function handleSendCardClick(handler) {
   const btnSend = document.querySelector(".btn");
   if (!btnSend) {
     return;
@@ -14,6 +14,7 @@ export function handlerClickOnSendCard(handler) {
 export function renderAlert() {
   const root = container();
   const markup = `
+  <section class="container">
     <div class="card">
       <h1 class="title">Deseas enviar la tarjeta?</h1>
       <p>
@@ -25,7 +26,8 @@ export function renderAlert() {
         <button type="button" id="btn-cancel" class="btn">CANCELAR</button>
         <button type="button" id="btn-continue" class="btn">CONTINUAR</button>
       </form>
-  </div>`;
+  </div>
+  </section>`;
 
   clear();
   const htmlObject = document.createElement("div");
@@ -34,43 +36,36 @@ export function renderAlert() {
   root.insertAdjacentElement("beforeend", htmlObject);
 }
 
-export function handlerClickContinue(handler) {
+export function handleContinueClick(handler) {
   const btnContinue = document.getElementById("btn-continue");
 
   btnContinue.removeEventListener("click", handler);
-  btnContinue.addEventListener("click", function (e) {
-    e.preventDefault();
-    const input = getInput();
-    const name = input.value;
-
-    handler(name);
-  });
+  btnContinue.addEventListener("click", handler);
 }
 
-export function handlerClickCancel(handler) {
+export function getName() {
+  return getInput().value;
+}
+
+export function handleCancelClick(handler) {
   const btnCancel = document.getElementById("btn-cancel");
 
   btnCancel.removeEventListener("click", handler);
   btnCancel.addEventListener("click", handler);
 }
 
-export function handlerFocusInput(handler) {
+export function handleFocusInput(handler) {
   const input = getInput();
 
   input.removeEventListener("focus", handler);
   input.addEventListener("focus", handler);
 }
 
-export function handlerBlurInput(handler) {
+export function handleBlurInput(handler) {
   const input = getInput();
 
-  input.removeEventListener("blur", function () {});
-  input.addEventListener("blur", function () {
-    const input = getInput();
-    const name = input.value;
-
-    handler(name);
-  });
+  input.removeEventListener("blur", handler);
+  input.addEventListener("blur", handler);
 }
 
 function getInput() {

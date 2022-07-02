@@ -1,12 +1,10 @@
-import { clear } from "./renderCard";
-
-
-
-function renderSuccessMessage (nombre) {
-  const root = document.querySelector(".container-ppal")
+export function renderSuccessMessage(nombre) {
+  const root = document.querySelector(".container-ppal");
   const markup = `
-    <h1>Tarjeta enviada a: ${nombre}</h1>
-`
+      <h1 class="success">Tarjeta enviada a:<span class="name"> ${nombre}! </span></h1>
+      <button class="btn back">Regresar</button>
+
+`;
 
   root.innerHTML = "";
   const htmlObject = document.createElement("div");
@@ -15,5 +13,10 @@ function renderSuccessMessage (nombre) {
   root.insertAdjacentElement("beforeend", htmlObject);
 }
 
+export function handleClickBack(handler) {
+  const back = document.querySelector(".back");
+  console.log(back, "click on back");
 
-export default renderSuccessMessage
+  back.removeEventListener("click", handler);
+  back.addEventListener("click", handler);
+}

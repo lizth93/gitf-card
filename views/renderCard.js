@@ -1,9 +1,10 @@
 export function container() {
-  return document.querySelector(".container");
+  return document.querySelector(".container-ppal");
 }
 const root = container();
 export function renderCard() {
   const markup = `
+  <section class="container">
     <div class="card">
       <h1 class="title">Tarjeta de regalo</h1>
       <p>
@@ -13,9 +14,10 @@ export function renderCard() {
         Dignissimos, quisquam porro.
       </p>
       <button class="btn">ENVIAR TARJETA</button>
-    </div>`;
+    </div>
+  </section>`;
 
-    clear();
+  clear();
   const htmlObject = document.createElement("div");
   htmlObject.innerHTML = markup;
 
